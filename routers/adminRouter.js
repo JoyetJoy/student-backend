@@ -7,5 +7,7 @@ router.post('/signup',adminController.signupPost)
 router.post('/login',adminController.loginPost)
 router.post('/addcourse',adminController.coursePost)
 router.get('/courses',adminController.courseGet)
+router.get('/editcourse',adminController.editcourseGet)
+router.post('/editcoursepost',adminController.editcoursePost)
 
 module.exports=router

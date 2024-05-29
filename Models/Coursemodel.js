@@ -11,6 +11,10 @@ const Schema ={
         type: String, 
         require: true 
     },
+    Duration:{
+        type:String,
+        require:true
+    },
     Fees:{ 
         type: String,
         require: true 

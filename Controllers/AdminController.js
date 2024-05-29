@@ -86,11 +86,12 @@ module.exports = {
 
   coursePost: async (req, res) => {
     try {
-      const { coursename, fees, description, instructor } = req.body;
+      const { coursename, fees, description,duration, instructor } = req.body;
       const course = new Coursemodel({
         Coursename:coursename,
         Fees:fees,
-        Description :description, 
+        Description :description,
+        Duration:duration, 
         Instructor:instructor
       });
       await course.save();
@@ -106,6 +107,41 @@ module.exports = {
     } catch (err) {
       console.log("courseGet", err);
       res.status(400).json({ success: false });
+    }
+  },
+  editcourseGet: async (req, res) => {
+    try {
+      const id = req.query.courseId;
+      const courseData = await Coursemodel.findOne({ _id: id });console.log(courseData,'kjj');
+      res.status(200).json({ success: true, courseData: courseData });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ success: false });
+    }
+  },
+  editcoursePost: async (req, res) => {
+    try {
+      const id = req.query.courseId;
+      const { coursename, description,duration, fees, instructor } = req.body;
+      const update = await Coursemodel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            Coursename: coursename,
+            Description: description,
+            Duration:duration,
+            Fees: fees,
+            Instructor: instructor,
+          },
+        },
+        { new: true }
+      );
+
+      console.log(update);
+
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log(" error in editcourse post", err);
     }
   },
 };
