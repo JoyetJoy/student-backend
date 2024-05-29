@@ -27,5 +27,5 @@ const schema={
 }
 
 const signupSchema=new mongoose.Schema(schema)
-const signupModel=new mongoose.model('studentsModel',signupSchema)
+const signupModel=new mongoose.model('adminModel',signupSchema)
 module.exports=signupModel;
