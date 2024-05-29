@@ -2,6 +2,7 @@ const signupModel = require('../Models/UserSignupmodel');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
+const Coursemodel=require('../Models/Coursemodel')
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -80,6 +81,74 @@ module.exports = {
     } catch (err) {
       console.error('Login error:', err);
       return res.status(500).json({ message: 'Server error' });
+    }
+  },
+  userhomeGet: async (req, res) => {
+    try {
+      const courseData = await Coursemodel.find({});
+      res.status(200).json({ success: true, courses: courseData });
+    } catch (err) {
+      console.log("courseGet", err);
+      res.status(400).json({ success: false });
+    }
+  },
+  profileGet: async (req, res) => {
+    try {
+      const id = req.query.id;
+      const userData = await signupModel.findById(id);
+      if (!userData) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
+      res.status(200).json({ success: true, userdata: userData });
+    } catch (err) {
+      console.log("profileGet error:", err);
+      res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+  },
+  addstudentPost: async (req, res) => {
+    try {
+      const { coursename, fees, description,duration, instructor } = req.body;
+      const course = new signupModel({
+        Coursename:coursename,
+        Fees:fees,
+        Description :description,
+        Duration:duration, 
+        Instructor:instructor
+      });
+      await course.save();
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log("course post", err);
+    }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      const id = req.query.id;
+      const { username,email,phonenumber } = req.body;
+      const update = await signupModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            username,
+            email,
+            phonenumber
+          },
+        },
+        { new: true }
+      );
+
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log(" error in editprofile post", err);
+    }
+  },
+  deleteProfile: async (req, res) => {
+    try {
+      const id = req.params.id;console.log(id);
+      await signupModel.deleteOne({ _id: id });
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log("deleteprofile", err);
     }
   },
 };
