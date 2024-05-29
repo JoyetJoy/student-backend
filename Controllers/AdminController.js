@@ -137,11 +137,19 @@ module.exports = {
         { new: true }
       );
 
-      console.log(update);
-
       res.status(200).json({ success: true });
     } catch (err) {
       console.log(" error in editcourse post", err);
+    }
+  },
+  //deleting course
+  deleteCourse: async (req, res) => {
+    try {
+      const id = req.params.id;
+      await Coursemodel.deleteOne({ _id: id });
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.log("deleteCourse", err);
     }
   },
 };
