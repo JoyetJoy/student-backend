@@ -112,7 +112,7 @@ module.exports = {
   // Handler for getting user profile by ID
   profileGet: async (req, res) => {
     try {
-      const id = req.query.id;
+      const id = req.userId;
       const userData = await signupModel.findById(id); // Fetch user data by ID
       if (!userData) {
         return res.status(404).json({ success: false, message: 'User not found' });

@@ -6,10 +6,10 @@ const userController=require('../Controllers/UserController')
 
 router.post('/signup',userController.signupPost)
 router.post('/login',userController.loginPost)
-router.get('/userhome',userController.userhomeGet)
-router.get('/profile',userController.profileGet)
-router.post('/addstudent',userController.addstudentPost)
-router.put('/updateprofile',userController.updateProfile)
-router.delete('/deleteprofile/:id',userController.deleteProfile)
+router.get('/userhome',verifyToken,userController.userhomeGet)
+router.get('/profile',verifyToken,userController.profileGet)
+router.post('/addstudent',verifyToken,userController.addstudentPost)
+router.put('/updateprofile',verifyToken,userController.updateProfile)
+router.delete('/deleteprofile/:id',verifyToken,userController.deleteProfile)
 
 module.exports=router
