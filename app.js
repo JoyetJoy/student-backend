@@ -24,10 +24,8 @@ const adminRouter = require('./routers/adminRouter'); // Router for admin-relate
 app.use('/', userRouter); // Mount userRouter at the root path
 app.use('/admin', adminRouter); // Mount adminRouter at the '/admin' path
 
-// Connect to the MongoDB database using Mongoose
-mongoose.connect(process.env.MONGODB_URI, {
-    // You can add options here, like useNewUrlParser, useUnifiedTopology, etc.
-})
+// Connect to the MongoDB database using Mongoose 
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
     console.log('Connected to the database'); // Log success message upon successful database connection
 
